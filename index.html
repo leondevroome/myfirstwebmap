@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+    <title> My First Leaflet map </title>
+    <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+</head>
+
+<body>
+    <H1>Kijk een kaart!</H1>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+
+    <script>
+        //initialize the map
+        var map = L.map('map').setView([52.347679, 4.811938], 12);
+
+        //Create baselayer - tiles
+        var backgroundMap = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+            attribution: '<a href="http://openstreetmap.org">OpenStreetMap</a>contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+            maxZoom: 19
+        });
+
+        //marker
+        var marker = L.marker([42.349239, -71.041342]).addTo(map);
+        var huis = L.marker([52.347679, 4.811938]).addTo(map);
+        var school = L.marker([52.371582, 5.218972]).addTo(map);
+        var derp = L.marker([52.658438, 5.532499]).addTo(map);
+
+        //popups
+        var popup = "Hier woon ik!";
+        huis.bindPopup(popup);
+        var popup = "Dit is mijn opleiding";
+        school.bindPopup(popup);
+
+        //cirkel
+        var circle = L.circle([52.347679, 4.811938], 500, {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5
+        }).addTo(map);
+
+        //polygon
+        var polygon = L.polygon([
+            [52.347679, 4.811938],
+            [52.371582, 5.218972],
+            [52.658438, 5.532499]
+        ]).addTo(map);
+
+        backgroundMap.addTo(map);
+
+        // Create a marker first
+        var geojsonMarkerOptions = {
+            radius: 8,
+            fillColor: "#ff7800",
+            color: "#000",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+        };
+
+        //create a empty geojson layer
+        var geojson = L.geoJson(null, {
+            pointToLayer: function(feature, latlng) {
+                return L.circleMarker(latlng, geojsonMarkerOptions);
+            }
+        }).addTo(map);
+
+        L.geoJSON(geojsonFeature, properties).addTo(map);
+
+        var myLayer = L.geoJSON().addTo(map);
+myLayer.addData(geojsonFeature);
+
+
+
+    </script>
+</body>
+</html>
